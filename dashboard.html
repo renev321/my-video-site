@@ -3,18 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <script defer src="protect.js"></script>
+    <title>Video Player</title>
 </head>
 <body>
-    <h2>Welcome to Your Video Dashboard</h2>
-    <p>This page is protected.</p>
-    <button onclick="logout()">Logout</button>
-
-    <h3>Videos</h3>
-    <video width="600" controls>
-        <source src="https://drive.google.com/uc?export=download&id=YOUR_VIDEO_ID" type="video/mp4">
+    <h1>My Google Drive Videos</h1>
+    <ul>
+        <li><a href="#" onclick="playVideo('1X0xY-abc123def456')">Video 1</a></li>
+        <li><a href="#" onclick="playVideo('1Y2zA-xyz789ghi012')">Video 2</a></li>
+    </ul>
+    
+    <video id="videoPlayer" width="640" height="360" controls>
+        <source id="videoSource" src="" type="video/mp4">
         Your browser does not support the video tag.
     </video>
+    
+    <script>
+        function playVideo(fileId) {
+            let videoUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+            document.getElementById("videoSource").src = videoUrl;
+            document.getElementById("videoPlayer").load();
+        }
+    </script>
 </body>
 </html>
