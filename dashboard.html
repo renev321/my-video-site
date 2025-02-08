@@ -3,26 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
+    <title>Video Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: #333;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            margin: 0;
+            font-size: 18px;
+            text-align: center;
+        }
+        .video-list {
+            list-style: none;
+            padding: 0;
+        }
+        .video-list li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #555;
+        }
+        .video-list li:hover {
+            background: #444;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+        }
+        iframe {
+            width: 100%;
+            height: 80vh;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>My Google Drive Videos</h1>
-    <ul>
-        <li><a href="#" onclick="playVideo('1X0xY-abc123def456')">Video 1</a></li>
-        <li><a href="#" onclick="playVideo('1Y2zA-xyz789ghi012')">Video 2</a></li>
-    </ul>
-    
-    <video id="videoPlayer" width="640" height="360" controls>
-        <source id="videoSource" src="" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    
+
+    <div class="sidebar">
+        <h2>📂 Video List</h2>
+        <ul id="video-list" class="video-list"></ul>
+    </div>
+
+    <div class="content">
+        <h2>🎬 Selected Video</h2>
+        <iframe id="video-frame" src="" allowfullscreen></iframe>
+    </div>
+
     <script>
-        function playVideo(fileId) {
-            let videoUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-            document.getElementById("videoSource").src = videoUrl;
-            document.getElementById("videoPlayer").load();
+        // 📌 List of Google Drive Video IDs
+        const videos = [
+            { title: "Video 1", id: "1Hj0kmPaXhZhB9CM7tbSHPLGkGQkT_Y0G" },
+            { title: "Video 2", id: "1pKJS_74QKPqT3xLLdUudwWxSLwL-y2xD" },
+            { title: "Video 3", id: "1D6kCzBQC2cZv5uoBzHdLaCfT6tFbl8ld" }
+        ];
+
+        const videoList = document.getElementById("video-list");
+        const videoFrame = document.getElementById("video-frame");
+
+        // 📌 Populate Video List
+        videos.forEach(video => {
+            let li = document.createElement("li");
+            li.textContent = video.title;
+            li.onclick = () => {
+                videoFrame.src = `https://drive.google.com/file/d/${video.id}/preview`;
+            };
+            videoList.appendChild(li);
+        });
+
+        // 📌 Load the first video by default
+        if (videos.length > 0) {
+            videoFrame.src = `https://drive.google.com/file/d/${videos[0].id}/preview`;
         }
     </script>
+
 </body>
 </html>
